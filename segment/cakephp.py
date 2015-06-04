@@ -14,11 +14,11 @@ def version(pl, segment_info):
         if os.path.isfile("lib/Cake/VERSION.txt") == False:
             return None
 
-        status, alloy_version = commands.getstatusoutput("awk '/./{line=$0} END{print line}' lib/Cake/VERSION.txt")
+        status, cake_version = commands.getstatusoutput("awk '/./{line=$0} END{print line}' lib/Cake/VERSION.txt")
 
-        if alloy_version != '':
+        if cake_version != '':
             return [{
-                'contents': str(alloy_version),
+                'contents': str(cake_version),
                 'highlight_groups': ['version']
             }]
         else:
