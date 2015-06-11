@@ -25,7 +25,7 @@ class CakePHPSegment(Segment):
             if cake_version != '':
                 return [{
                     'contents': str(cake_version),
-                    'highlight_groups': ['version']
+                    'highlight_groups': ['cakephp_version']
                 }]
             else:
                 return None
@@ -36,6 +36,26 @@ class CakePHPSegment(Segment):
             else:
                 raise
 
+    def test(self, cake_core_include_path):
+        try:
+            if os.path.isfile(cake_core_include_path + "/Cake/VERSION.txt") == False:
+                return None
+
+            status, cake_version = commands.getstatusoutput("awk '/./{line=$0} END{print line}' " + cake_core_include_path + "/Cake/VERSION.txt")
+
+            if cake_version != '':
+                return [{
+                    'contents': str(cake_version),
+                    'highlight_groups': ['version']
+                }]
+            else:
+                return None
+
+        except OSError as e:
+            if e.errno == 2:
+                pass
+            else:
+                raise
 
     def __call__(self, pl, segment_info, cake_core_include_path='lib'):
 
