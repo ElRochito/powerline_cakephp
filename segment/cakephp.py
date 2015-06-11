@@ -9,12 +9,12 @@ import commands
 from xml.dom import minidom
 
 @requires_segment_info
-def version(pl, segment_info):
+def version(pl, segment_info, path='lib'):
     try:
-        if os.path.isfile("lib/Cake/VERSION.txt") == False:
+        if os.path.isfile(path + "/Cake/VERSION.txt") == False:
             return None
 
-        status, cake_version = commands.getstatusoutput("awk '/./{line=$0} END{print line}' lib/Cake/VERSION.txt")
+        status, cake_version = commands.getstatusoutput("awk '/./{line=$0} END{print line}' " + path + "/Cake/VERSION.txt")
 
         if cake_version != '':
             return [{
