@@ -15,13 +15,12 @@ from xml.dom import minidom
 @requires_segment_info
 class CakePHPSegment(Segment):
 
-    def version(self, path):
-        print path
+    def version(self, cake_core_include_path):
         try:
-            if os.path.isfile(path + "/Cake/VERSION.txt") == False:
+            if os.path.isfile(cake_core_include_path + "/Cake/VERSION.txt") == False:
                 return None
 
-            status, cake_version = commands.getstatusoutput("awk '/./{line=$0} END{print line}' " + path + "/Cake/VERSION.txt")
+            status, cake_version = commands.getstatusoutput("awk '/./{line=$0} END{print line}' " + cake_core_include_path + "/Cake/VERSION.txt")
 
             if cake_version != '':
                 return [{
@@ -38,9 +37,9 @@ class CakePHPSegment(Segment):
                 raise
 
 
-    def __call__(self, pl, segment_info, path='lib'):
+    def __call__(self, pl, segment_info, cake_core_include_path='lib'):
 
-        return self.version(path)
+        return self.version(cake_core_include_path)
 
 cakephp = with_docstring(CakePHPSegment(),
 '''Return the status of a Git working copy.
