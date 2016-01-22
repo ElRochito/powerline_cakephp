@@ -11,10 +11,21 @@ from xml.dom import minidom
 @requires_segment_info
 def version(pl, segment_info):
     try:
-        if os.path.isfile("lib/Cake/VERSION.txt") == False:
+        check = False
+        path = ""
+
+        if os.path.isfile("lib/Cake/VERSION.txt") == True:
+            path = "lib/Cake/VERSION.txt"
+            check = True
+
+        if os.path.isfile("app/vendor/cakephp/cakephp/VERSION.txt") == True:
+            path = "app/vendor/cakephp/cakephp/VERSION.txt"
+            check = True
+
+        if check == False:
             return None
 
-        status, cake_version = commands.getstatusoutput("awk '/./{line=$0} END{print line}' lib/Cake/VERSION.txt")
+        status, cake_version = commands.getstatusoutput("awk '/./{line=$0} END{print line}' " + path)
 
         if cake_version != '':
             return [{
